@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenido</title>
+    <link rel="icon" type="image/png" href="imagen.png">
+ 
+</head>
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="pasteleria.mp4" type="video/mp4" />
+    </video>
+
+    <div class="contenedor">
+        <div class="branding">
+            <img src="imagen.png" alt="logo de pasteleria Marcanti" />
+            <p>PASTELERIA DE CALIDAD</p>
+        </div>
+       
+        <nav class="menu">
+            <ul>
+                <li><a href="pasteles.html">Pasteles</a></li>
+                <li><a href="pedidos.html">Pedidos</a></li>
+                <li><a href="empleados.html">Empleados</a></li>
+                <li><a href="index.html">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>
+
+<style>
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    body, html{
+        height: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #bg-video{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        filter: brightness(0.7);
+    }
+    .contenedor{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+    }
+    .branding img{
+        width: 95%;
+    }
+    .branding span{
+        font-family: 'Pacifico', cursive;
+        font-size: 4.5rem;
+    }
+    .branding p{
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        text-align: center;
+    }.menu {
+    background: repeating-linear-gradient(
+        45deg,
+        #fff0f5,
+        #fff0f5 10px,
+        #ffe0eb 10px,
+        #ffe0eb 20px
+    );
+    padding: 2rem 3rem;
+    border: 6px double #ff69b4;
+    border-radius: 25px;
+    box-shadow:
+        0 0 10px #ffb6c1,
+        0 0 20px #ff69b4 inset,
+        5px 5px 0px #ffa6c9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: shineBox 3s ease-in-out infinite alternate;
+}
+
+@keyframes shineBox {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.1); }
+}
+
+.menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+}
+
+.menu a {
+    display: inline-block;
+    width: 220px; /* MISMO TAMAÑO PARA TODOS */
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Press Start 2P', cursive;
+    background: linear-gradient(to right, #ff4da6, #ff85c1, #ffb6d9);
+    padding: 1rem 0;
+    border: 4px solid white;
+    border-radius: 15px;
+    box-shadow:
+        0 0 10px #ff69b4,
+        inset 0 0 5px rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-shadow: 1px 1px #c71585;
+    font-size: 0.9rem;
+}
+
+.menu a:hover {
+    transform: scale(1.1) rotate(2deg);
+    box-shadow:
+        0 0 15px #ff1493,
+        inset 0 0 8px #fff;
+    background: linear-gradient(to right, #ff1493, #ff69b4);
+}
+
+</style>
+
+

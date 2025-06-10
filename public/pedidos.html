@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="imagen.png">
+    <title>Pasteles</title>
+</head>
+<body>
+    
+    <!--menu de navegacion-->
+    <div class="menu">
+        <a href="pasteles.html">pasteles</a>
+        <a href="empleados.html">Empleados</a>
+        <a href="Principal.html">principal</a>
+        <a href="Index.html">Cerrar Sesion</a>
+
+    </div>
+
+    <h2>Lista de Pedidos</h2>
+
+    <div class="agregar-pastel-container">
+        <h3>Agregar pedido</h3>
+        <form id="formPedido" class="form-horizontal">
+            <input type="text" id="cliente" placeholder="Nombre del Cliente" required>
+            <input type="text" id="producto" placeholder="Producto" required>
+            <button type="submit">Agregar</button>
+        </form>
+    </div>
+    <!--Lista de pasteles-->
+
+    <div class="tabla-container">
+        <table id="tablaPedidos">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Producto</th>
+                    <th>Acciones</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <!--Aqui se agregara la guia de los pasteles-->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        //funcion para cargar y mostrar pasteles
+        async function cargarPedidos() {
+            const res = await fetch('/api/pedidos');
+            const pedidos = await res.json();
+            const tbody = document.querySelector('#tablaPedidos tbody');
+            tbody.innerHTML = pedidos.map(p => `
+            <tr>
+                <td>${p.cliente}</td>
+                <td>${p.producto}</td>
+                <td>
+                    <button class="btn-eliminar" onclick="eliminarPedido('${p._id}')">Eliminar</button>
+                </td>
+            </tr>`).join('');
+        }
+
+        //funcion para eliminar un pastel
+        async function eliminarPedido(id){
+            const confirmar = confirm("¿Estas seguro de Eliminar?");
+            if(!confirmar)return;
+            await fetch(`/api/pedidos/${id}`,{method: 'DELETE'});
+            cargarPedidos();
+        }
+
+        //MAEJAR EL EVENTO SUBMIT
+        document.getElementById('formPedido').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const cliente = document.getElementById('cliente').value;
+            const producto = document.getElementById('producto').value;
+            await fetch ('/api/pedidos/',{
+                method: 'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({ cliente, producto })
+            });
+            document.getElementById('formPedido').reset;
+            cargarPedidos();
+        });
+        cargarPedidos();
+        window.eliminarPedido = eliminarPedido;
+    </script>
+</body>
+</html>
+
+<style>
+* {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff0f5;
+      color: #333;
+    }
+
+    .menu {
+      background-color: #ffb6c1;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      border-bottom: 3px solid #ff69b4;
+    }
+
+    .menu a {
+      text-decoration: none;
+      background-color: #db7093;
+      color: #fff;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu a:hover {
+      background-color: #c71585;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-top: 2rem;
+      color: #800080;
+    }
+
+    .agregar-pastel-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 2px solid #ffc0cb;
+    }
+
+    .agregar-pastel-container h3 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #d2691e;
+      font-size: 1.5rem;
+    }
+
+    form input, form button {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    form button {
+      background-color: #ff69b4;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    form button:hover {
+      background-color: #ff1493;
+    }
+
+    .tabla-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      overflow-x: auto;
+      padding: 0 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid #ffc0cb;
+      font-size: 1rem;
+    }
+
+    th {
+      background-color: #dda0dd;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #ffe4e1;
+    }
+
+    .btn-eliminar {
+      background-color: #ff6347;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-eliminar:hover {
+      background-color: #d63031;
+    }
+
+    @media (max-width: 600px) {
+      .menu {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      form input, form button {
+        font-size: 0.95rem;
+      }
+
+      th, td {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+      }
+    }
+</style>
