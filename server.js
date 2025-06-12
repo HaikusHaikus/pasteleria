@@ -22,7 +22,7 @@ app.use(express.static('public'));
 
 //conexion a mongoDB
 //concetarse a pasteleria
-mongoose.connect(process.env.MONGODB_URL, {   
+mongoose.connect(process.env.MONGODB_URI, {   
     useNewUrlParser:true, //usa el parser de url
     useUnifiedTopology:true //motor de monitoreo
    })
